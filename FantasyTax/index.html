@@ -6,60 +6,64 @@
 	</head>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 	<body>
-		<div id="content">
-			<div id="header">
-				<h1 id="title">UK Fantasy Tax</h1>
+		<div id="content" class="grid-container">
+			<div id="header" class="grid-item">
+				<h1 id="title" style="font-size: 30;">UK Fantasy Tax</h1>
 				<h2>Choose your own taxes!</h2>
 			</div>
-			<div id="input">
+			<div id="IO">
+				<hr/>
+				<div id="input" class="grid-item">
+					<div>
+						<h3 class="subtitle">Negative Income Tax / Personal Allowance (if rate is 0%)</h3>
+						Tax Rate <input class="percentage input-box" type="number" id="NITRate" value=0>%
+						Up To £<input class="amount input-box" type="number" id="NITUpTo" value=0>
+					</div>
+					<div>
+						<h3 class="subtitle">Tax Band 1</h3>
+						Tax Rate (from NIT/PA) <input class="percentage input-box" type="number" id="T1Rate" value=0>%
+						Up To £<input class="amount input-box" type="number" id="T1UpTo" value=0>
+					</div>
+					<div>
+						<h3 class="subtitle">Tax Band 2</h3>
+						Tax Rate (from last tax band) <input class="percentage input-box" type="number" id="T2Rate" value=0>%
+						Up To £<input class="amount input-box" type="number" id="T2UpTo" value=0>
+					</div>
+					<div>
+						<h3 class="subtitle">Tax Band 3</h3>
+						Tax Rate (from last tax band) <input class="percentage input-box" type="number" id="T3Rate" value=0>%
+					</div>
+					<div>
+						<h3 class="subtitle">UBI</h3>
+						<p>(Leave blank if not wanted)<br/>Calculated as giving payments to taxpayers only</p>
+						Annual payment £<input class="amount input-box" type="number" id="UBI" value=0>
+					</div>
+					<div>
+						<button class="button" style="vertical-align:middle" onclick="main()"><span>Calculate </span></button>
+					</div>
+				</div>
+				<hr/>
+				<div id="output">
+					<h3 class="subtitle">You collected approximately: </h3>
+					<div id="collected">£0.00</div>
+					<p>This is compared to £177.4bn with real rates in 2016/2017</p>
+					<p>This leaves a budget deficit/surplus of approximately:</p>
+					<div id="deficit">£-201,300,000,000.00</div>
+					<p>This is with the 2016/2017 budget with all of the other taxes still in place</p>
+				</div>
+			</div>
+			<div id="graphs" class="grid-item">
 				<hr/>
 				<div>
-					<h3 class="subtitle">Negative Income Tax / Personal Allowance (if rate is 0%)</h3>
-					Tax Rate <input class="percentage input-box" type="number" id="NITRate" value=0>%
-					Up To £<input class="amount input-box" type="number" id="NITUpTo" value=0>
-				</div>
-				<div>
-					<h3 class="subtitle">Tax Band 1</h3>
-					Tax Rate (from NIT/PA) <input class="percentage input-box" type="number" id="T1Rate" value=0>%
-					Up To £<input class="amount input-box" type="number" id="T1UpTo" value=0>
-				</div>
-				<div>
-					<h3 class="subtitle">Tax Band 2</h3>
-					Tax Rate (from last tax band) <input class="percentage input-box" type="number" id="T2Rate" value=0>%
-					Up To £<input class="amount input-box" type="number" id="T2UpTo" value=0>
-				</div>
-				<div>
-					<h3 class="subtitle">Tax Band 3</h3>
-					Tax Rate (from last tax band) <input class="percentage input-box" type="number" id="T3Rate" value=0>%
-				</div>
-				<div>
-					<h3 class="subtitle">UBI</h3>
-					<p>(Leave blank if not wanted)<br/>Calculated as giving payments to taxpayers only</p>
-					Annual payment £<input class="amount input-box" type="number" id="UBI" value=0>
-				</div>
-				<div>
-					<button class="button" style="vertical-align:middle" onclick="main()"><span>Calculate </span></button>
-				</div>
-			</div>
-			<hr/>
-			<div id="output">
-				<h3 class="subtitle">You collected approximately: </h3>
-				<div id="collected">£0.00</div>
-				<p>This is compared to £177.4bn with real rates in 2016/2017</p>
-				<p>This leaves a budget deficit/surplus of approximately:</p>
-				<div id="deficit">£-201,300,000,000.00</div>
-				<p>This is with the 2016/2017 budget with all of the other taxes still in place</p>
-			</div>
-			<hr/>
-			<div id="graphs">
-				<div>
+					<h3 class="subtitle">Income Distribution</h3>
 					<input type="checkbox" id="999" value="checked" onclick="checkbox999()">Include 99.9% in graph
 				</div>
 				<div>
-					<canvas id="myChart1" width="400" height="250"></canvas>
+					<canvas id="myChart1" width="200" height="500"></canvas>
 				</div>
 				<div>
-					<canvas id="myChart2" width="400" height="250"></canvas>
+					<h3 class="subtitle">Share of taxes paid by each group</h3>
+					<canvas id="myChart2" width="200" height="300"></canvas>
 				</div>
 			</div>
 			<script src="calculation.js"></script>

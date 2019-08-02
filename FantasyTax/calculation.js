@@ -408,7 +408,10 @@ function chart() {
             }
         ],
         },
-        options:{}
+        options:{
+            responsive: true,
+            maintainAspectRatio: false,
+        }
     });
 }
 
@@ -442,12 +445,10 @@ function pie() {
             }]
         },
         options:{
-            title: {
-                display: true,
-                text:"share of tax paid by each group",
-                fontSize:20
+            responsive: true,
+            maintainAspectRatio: false,
         }
-    }
+    
     });
 }
 
