@@ -135,5 +135,8 @@ hr {
                             "content"
                             "graph";
     }
+}
 
+#myChart2 {
+    max-height: 500px;
 }

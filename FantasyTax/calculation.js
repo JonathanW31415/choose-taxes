@@ -235,14 +235,44 @@ function percToDec(percentage) {
 }
 function math() {
     let NITRate = document.getElementById("NITRate").value;
+    console.log("NIT Rate: " + NITRate);
+    if (NITRate.length == 0)
+    {
+        console.log("NIT Rate is empty");
+        NITRate = 0;
+    }
+    console.log("NIT Rate after" + NITRate)
     let NITUpTo = document.getElementById("NITUpTo").value;
+    if (NITUpTo.length == 0)
+    {
+        NITUpTo = 0;
+    }
     let T1Rate = document.getElementById("T1Rate").value;
+    if (T1Rate.length == 0)
+    {
+        T1Rate = 0;
+    }
     let T1UpTo = document.getElementById("T1UpTo").value;
+    if (T1UpTo.length == 0)
+    {
+        T1UpTo = 0;
+    }
     let T2Rate = document.getElementById("T2Rate").value;
+    if (T2Rate.length == 0)
+    {
+        T2Rate = 0;
+    }
     let T2UpTo = document.getElementById("T2UpTo").value;
+    if (T2UpTo.length == 0)
+    {
+        T2UpTo= 0;
+    }
     let T3Rate = document.getElementById("T3Rate").value;
+    if (T3Rate.length == 0)
+    {
+        T3Rate = 0;
+    }
     let UBI = parseFloat(document.getElementById("UBI").value);
-    console.log(typeof(UBI));
     let taxRaised = 0;
     let i;
     for (i = 0; i < allIncome.length; i++) {
@@ -280,7 +310,6 @@ function math() {
         }
         taxRaised += (taxedT1 * percentilePop) + (taxedT2 * percentilePop) + (taxedT3 * percentilePop);
         taxRaised -= taxedNIT * percentilePop;
-        console.log("UBI: " + UBI + " NIT: " + taxedNIT);
         IncomeAfter[i] = income - (taxedT1 + taxedT2 + taxedT3) + taxedNIT + UBI;
         percentilePop = 312000;
     }
