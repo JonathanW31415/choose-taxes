@@ -495,3 +495,13 @@ function updateData999() {
     myChart1.data.datasets[1].data = chartAllIncome;
     myChart1.update();
 }
+
+document.addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("calc_btn").click();
+    }
+});

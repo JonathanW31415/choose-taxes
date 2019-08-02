@@ -49,6 +49,7 @@ hr {
 
 #IO {
     grid-area: content;
+    margin: 5%;
 }
 
 #output {
@@ -118,7 +119,7 @@ hr {
 
 .grid-container{
     grid-template-columns: 33% 67%;
-    grid-template-rows: 250px 1750px;
+    grid-template-rows: 250px 1000px;
     grid-template-areas: "header header"
                         "content graph";
 }
