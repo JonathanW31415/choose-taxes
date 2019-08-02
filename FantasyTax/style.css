@@ -13,17 +13,48 @@ body{
                                   supported by Chrome and Opera */
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    width: 300px;
+    background: lightgray;
+}
+
+.percentage {
+    width: 40px;
+}
+.amount{
+    width: 100px;
+}
+.input-box {
+    border-radius: 2px;
+    border: none;
+    background-color: lightgrey;
+    text-align: center;
+}
 #content {
     background-color: white;
-    height: 700px;
+    height: 1900px;
     width: 800px;
     margin: auto;
-    border-width: 20px;
-    border-color: black;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border: 1px solid lightgray;
+}
+
+#output {
+    margin-bottom: 20px;
+}
+
+#graphs {
+    margin-top: 20px;
 }
 
 #header {
     color: #f4511e;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .subtitle {
@@ -45,7 +76,8 @@ body{
     width: 175px;
     transition: all 0.5s;
     cursor: pointer;
-    margin: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
   
 .button span {
