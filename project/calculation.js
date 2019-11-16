@@ -1,3 +1,4 @@
+let numBrackets = 2;
 let chartIncomeAfter;
 let chartOneTo99;
 let chartAllIncome;
@@ -6,7 +7,8 @@ let myChart1;
 let myChart2;
 const pop = 31200000;
 let percentilePop = 312000;
-const allIncome = [11200,
+let allIncome;
+const labIncome = [11200,
     11500,
     11700,
     11900,
@@ -106,6 +108,109 @@ const allIncome = [11200,
     116000,
     166000,
     990000];
+
+const caplabincome = [104,
+    1560,
+    3045,
+    4419,
+    5416,
+    6181,
+    7028,
+    7777,
+    8445,
+    9090,
+    9750,
+    10339,
+    10836,
+    11326,
+    11794,
+    12215,
+    12616,
+    13037,
+    13431,
+    13828,
+    14190,
+    14568,
+    14939,
+    15335,
+    15701,
+    16048,
+    16420,
+    16797,
+    17173,
+    17551,
+    17936,
+    18307,
+    18677,
+    19037,
+    19392,
+    19769,
+    20149,
+    20517,
+    20889,
+    21267,
+    21637,
+    22020,
+    22403,
+    22778,
+    23177,
+    23554,
+    23926,
+    24326,
+    24742,
+    25162,
+    25584,
+    26004,
+    26420,
+    26870,
+    27340,
+    27796,
+    28242,
+    28708,
+    29191,
+    29661,
+    30129,
+    30623,
+    31129,
+    31639,
+    32138,
+    32680,
+    33231,
+    33810,
+    34412,
+    35026,
+    35687,
+    36377,
+    37105,
+    37866,
+    38648,
+    39462,
+    40304,
+    41177,
+    42095,
+    43044,
+    44036,
+    45155,
+    46367,
+    47673,
+    49122,
+    50730,
+    52428,
+    54211,
+    56146,
+    58239,
+    60550,
+    63263,
+    66543,
+    70611,
+    75832,
+    82852,
+    92968,
+    109293,
+    142335,
+    400837,
+];
+
 
 const oneTo999 = [1 ,
     2 ,
@@ -208,7 +313,7 @@ const oneTo999 = [1 ,
     99 ,
     99.9
     ]
-
+incomeSelect()
 chart()
 pie()
 function main() {
@@ -217,6 +322,7 @@ function main() {
     chartData999()
     updateData(chartIncomeAfter)
 }
+
 
 
 function results(taxRaised) {
@@ -234,84 +340,90 @@ function percToDec(percentage) {
     return percentage/100
 }
 function math() {
-    let NITRate = document.getElementById("NITRate").value;
-    console.log("NIT Rate: " + NITRate);
-    if (NITRate.length == 0)
+    let bands = [];
+    for (let o = 0; o < (numBrackets); o++)
     {
-        console.log("NIT Rate is empty");
-        NITRate = 0;
+        let upto;
+        let rate;
+        let new_band
+        rate = document.getElementsByClassName("rate_input")[o];
+        if ((rate) == undefined)
+        {
+            rate = "0";
+        }
+        console.log('the rate is  ' + rate.value);
+        if (o == (numBrackets-1))
+        {
+            upto = allIncome[allIncome.length-1].toString();
+            new_band = {'rate': rate.value, 'upto' : upto};
+        }
+        else
+        {
+            upto = document.getElementsByClassName("upto_input")[o];
+            if ((upto) == undefined)
+            {
+                upto = "0";
+            }
+            new_band = {'rate': rate.value, 'upto' : upto.value};
+        }
+        bands.push(new_band);   
     }
-    console.log("NIT Rate after" + NITRate)
-    let NITUpTo = document.getElementById("NITUpTo").value;
-    if (NITUpTo.length == 0)
-    {
-        NITUpTo = 0;
-    }
-    let T1Rate = document.getElementById("T1Rate").value;
-    if (T1Rate.length == 0)
-    {
-        T1Rate = 0;
-    }
-    let T1UpTo = document.getElementById("T1UpTo").value;
-    if (T1UpTo.length == 0)
-    {
-        T1UpTo = 0;
-    }
-    let T2Rate = document.getElementById("T2Rate").value;
-    if (T2Rate.length == 0)
-    {
-        T2Rate = 0;
-    }
-    let T2UpTo = document.getElementById("T2UpTo").value;
-    if (T2UpTo.length == 0)
-    {
-        T2UpTo= 0;
-    }
-    let T3Rate = document.getElementById("T3Rate").value;
-    if (T3Rate.length == 0)
-    {
-        T3Rate = 0;
-    }
+    console.log(bands);
     let UBI = parseFloat(document.getElementById("UBI").value);
     let taxRaised = 0;
-    let i;
-    for (i = 0; i < allIncome.length; i++) {
+    for (let i = 0; i < allIncome.length; i++) {
         let income = allIncome[i];
-        let taxedT3 = 0;
-        let taxedT2 = 0;
-        let taxedT1 = 0;
-        let taxedNIT = 0;
-        if (income == 166000)
-        {
-            percentilePop = 280800;
+        for (let j = numBrackets-1; j > -1; j--) {
+            let taxable;
+            let taxed;
+            let temp_from;
+            let selectedRow = bands[j];
+            let selectedRowMinus = bands[(j-1)];
+            let temp_rate = parseFloat(selectedRow['rate']);
+            let temp_upto = parseFloat(selectedRow['upto']);
+            if (j == 0 && income < temp_upto)
+            {
+                temp_from = income;
+            }
+            else if ( j == 0)
+            {
+                temp_from = temp_upto;
+            }
+            else{
+                temp_from = parseFloat(selectedRowMinus['upto']);
+            }
+            if (j == 0 && income <= temp_upto)
+            {
+                temp_rate = -temp_rate
+            }
+            if (income < temp_from)
+            {
+                taxed = 0
+            }
+            else if (income > temp_from && income <= temp_upto)
+            {
+                taxable = income - temp_from
+                taxed = taxable * percToDec(temp_rate);
+            }
+            else
+            {
+                taxed = (temp_upto - temp_from) * percToDec(temp_rate);
+            }
+            if(income == allIncome[allIncome.length-1])
+            {
+                taxRaised += taxed * 31200;
+            }
+            else if (income == allIncome[allIncome.length-2])
+            {
+                taxRaised += taxed * 280800;
+            }
+            else
+            {
+                taxRaised += taxed * percentilePop;
+            }
+            income -= taxed;
         } 
-        else if (income == 990000)
-        {
-            percentilePop = 31200;
-        }
-        if (income > T2UpTo)
-        {
-            taxedT3 = (income - T2UpTo) * percToDec(T3Rate);
-            taxedT2 = (T2UpTo - T1UpTo) * percToDec(T2Rate);
-            taxedT1 = (T1UpTo - NITUpTo) * percToDec(T1Rate);
-        }
-        else if (income > T1UpTo && income <=T2UpTo)
-        {
-            taxedT2 = (income - T1UpTo) * percToDec(T2Rate);
-            taxedT1 = (T1UpTo - NITUpTo) * percToDec(T1Rate);
-        }
-        else if (income > NITUpTo && income <= T1UpTo)
-        {
-            taxedT1 = (income - NITUpTo) * percToDec(T1Rate);
-        }
-        else if (income <= NITUpTo)
-        {
-            taxedNIT = (NITUpTo - income) * percToDec(NITRate);
-        }
-        taxRaised += (taxedT1 * percentilePop) + (taxedT2 * percentilePop) + (taxedT3 * percentilePop);
-        taxRaised -= taxedNIT * percentilePop;
-        IncomeAfter[i] = income - (taxedT1 + taxedT2 + taxedT3) + taxedNIT + UBI;
-        percentilePop = 312000;
+        IncomeAfter[i] = income + UBI;
     }
     taxRaised -= UBI * pop;
     console.log(IncomeAfter);
@@ -375,7 +487,7 @@ function checkbox999() {
 }
 
 function chartData999() {
-    checkbox = document.getElementById("999");
+    let checkbox = document.getElementById("999");
     if (checkbox.checked)
     {
         chartOneTo99 = oneTo999;
@@ -387,6 +499,18 @@ function chartData999() {
         chartOneTo99 = oneTo999.slice(0,99);
         chartAllIncome = allIncome.slice(0, 99);
         chartIncomeAfter = IncomeAfter.slice(0,99);
+    }
+}
+
+function incomeSelect() {
+    let checkbox = document.getElementById("labAndCapIncomeDataset");
+    if (checkbox.checked)
+    {
+        allIncome = caplabincome;
+    }
+    else
+    {
+        allIncome = labIncome;
     }
 }
 
@@ -505,3 +629,47 @@ document.addEventListener("keyup", function(event) {
       document.getElementById("calc_btn").click();
     }
 });
+
+
+function plus() {
+    numBrackets += 1;
+    let brackethtml = '<div class="band_input" id="band'+numBrackets+'">' +
+    '<h3 class="subtitle">Tax Band '+ numBrackets +'</h3>' +
+    'Tax Rate (from last tax band) <input class="percentage input-box rate_input" type="number" placeholder=0>%</br>' +
+    'Up To £<input class="amount input-box upto_input" type="number" placeholder=0>'+
+    '</div>';
+    if (numBrackets == 3)
+    {
+        let e = document.getElementById("minus_btn");
+        e.style.display = "inline";
+    }
+    document.getElementById("newBands").innerHTML += brackethtml;
+}
+
+function minus() {
+    if (numBrackets == 2)
+    {
+        let e = document.getElementById("minus_btn");
+        e.style.display = "none";
+    }
+    else {
+        let band = document.getElementById("band"+numBrackets);
+        band.parentNode.removeChild(band);
+        numBrackets -= 1;
+    }
+}
+
+function copy() {
+    /* Get the text field */
+    let copyText = document.getElementById("bitcoinAddress");
+  
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+  
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+  
+    /* Alert the copied text */
+    alert("Copied the text: " + copyText.value);
+}

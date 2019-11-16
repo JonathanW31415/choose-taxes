@@ -50,6 +50,7 @@ hr {
 #IO {
     grid-area: content;
     margin: 5%;
+    margin-top: 0px;
 }
 
 #output {
@@ -83,22 +84,37 @@ hr {
     color: #FFFFFF;
     text-align: center;
     font-size: 24px;
-    padding: 15px;
-    width: 175px;
     transition: all 0.5s;
     cursor: pointer;
+}
+
+.plusminus {
+    padding: 10px;
+    width: 50px;
+    margin-bottom: 1px;
+    margin-top: 20px;
+}
+
+#minus_btn {
+    display: none;
+}
+
+.bigButton {
+    padding: 15px;
+    width: 175px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
-  
-.button span {
+
+
+.bigButton span {
     cursor: pointer;
     display: inline-block;
     position: relative;
     transition: 0.5s;
 }
   
-.button span:after {
+.bigButton span:after {
     content: '\00bb';
     position: absolute;
     opacity: 0;
@@ -107,14 +123,15 @@ hr {
     transition: 0.5s;
 }
   
-.button:hover span {
+.bigButton:hover span {
     padding-right: 25px;
 }
   
-.button:hover span:after {
+.bigButton:hover span:after {
     opacity: 1;
     right: 0;
 }
+
 
 
 .grid-container{
@@ -141,3 +158,44 @@ hr {
 #myChart2 {
     max-height: 500px;
 }
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+

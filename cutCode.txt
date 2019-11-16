@@ -1,0 +1,112 @@
+
+1.
+					<div id="TB1">
+						<h3 class="subtitle">Tax Band 1</h3>
+						Tax Rate (from NIT/PA) <input class="percentage input-box rate_input" type="number" id="T1Rate" placeholder=0>%
+						Up To £<input class="amount input-box" type="number" id="T1UpTo" placeholder=0>
+					</div>
+					<div id="TB2">
+						<h3 class="subtitle">Tax Band 2</h3>
+						Tax Rate (from last tax band) <input class="percentage input-box rate_input" type="number" id="T2Rate" placeholder=0>%
+						Up To £<input class="amount input-box" type="number" id="T2UpTo" placeholder=0>
+					</div>
+					<div id="TB3">
+						<h3 class="subtitle">Tax Band 3</h3>
+						Tax Rate (from last tax band) <input class="percentage input-box rate_input" type="number" id="T3Rate" placeholder=0>%
+						Up To £<input class="amount input-box" type="number" id="T3UpTo" placeholder=0>
+					</div>
+					<div id="TB4">
+						<h3 class="subtitle">Tax Band 4</h3>
+						Tax Rate (from last tax band) <input class="percentage input-box" type="number" id="T4Rate" placeholder=0>%
+						Up To £<input class="amount input-box" type="number" id="T4UpTo" placeholder=0>
+					</div>
+
+2.
+    let T1Rate = document.getElementById("T1Rate").value;
+    if (T1Rate.length == 0)
+    {
+        T1Rate = 0;
+    }
+    let T1UpTo = document.getElementById("T1UpTo").value;
+    if (T1UpTo.length == 0)
+    {
+        T1UpTo = 0;
+    }
+    let T2Rate = document.getElementById("T2Rate").value;
+    if (T2Rate.length == 0)
+    {
+        T2Rate = 0;
+    }
+    let T2UpTo = document.getElementById("T2UpTo").value;
+    if (T2UpTo.length == 0)
+    {
+        T2UpTo = 0;
+    }
+    let T3Rate = document.getElementById("T3Rate").value;
+    if (T3Rate.length == 0)
+    {
+        T3Rate = 0;
+    }
+    let T3UpTo = document.getElementById("T3UpTo").value;
+    if (T3UpTo.length == 0)
+    {
+        T3UpTo = 0;
+    }
+    let T4Rate = document.getElementById("T4Rate").value;
+    if (T4Rate.length == 0)
+    {
+        T4Rate = 0;
+    }
+    let T4UpTo = document.getElementById("T4UpTo").value;
+    if (T4UpTo.length == 0)
+    {
+        T4UpTo= 0;
+    }
+    let T5Rate = document.getElementById("T5Rate").value;
+    if (T5Rate.length == 0)
+    {
+        T5Rate = 0;
+    }
+
+3.
+    let node = document.getElementById("newBands").innerHTML
+    let newBracket = document.createElementNode(brackethtml);
+    node.appendChild(newBracket);
+    document.getElementById("newBands").appendChild(node);
+
+
+            let taxedT3 = 0;
+        let taxedT2 = 0;
+        let taxedT1 = 0;
+        let taxedNIT = 0;
+        if (income == 166000)
+        {
+            percentilePop = 280800;
+        } 
+        else if (income == 990000)
+        {
+            percentilePop = 31200;
+        }
+        if (income > T2UpTo)
+        {
+            taxedT3 = (income - T2UpTo) * percToDec(T3Rate);
+            taxedT2 = (T2UpTo - T1UpTo) * percToDec(T2Rate);
+            taxedT1 = (T1UpTo - NITUpTo) * percToDec(T1Rate);
+        }
+        else if (income > T1UpTo && income <=T2UpTo)
+        {
+            taxedT2 = (income - T1UpTo) * percToDec(T2Rate);
+            taxedT1 = (T1UpTo - NITUpTo) * percToDec(T1Rate);
+        }
+        else if (income > NITUpTo && income <= T1UpTo)
+        {
+            taxedT1 = (income - NITUpTo) * percToDec(T1Rate);
+        }
+        else if (income <= NITUpTo)
+        {
+            taxedNIT = (NITUpTo - income) * percToDec(NITRate);
+        }
+        taxRaised += (taxedT1 * percentilePop) + (taxedT2 * percentilePop) + (taxedT3 * percentilePop);
+        taxRaised -= taxedNIT * percentilePop;
+        IncomeAfter[i] = income - (taxedT1 + taxedT2 + taxedT3) + taxedNIT + UBI;
+        percentilePop = 312000;
