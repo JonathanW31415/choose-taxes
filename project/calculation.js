@@ -7,109 +7,8 @@ let myChart1;
 let myChart2;
 const pop = 31200000;
 let percentilePop = 312000;
-let allIncome;
-const labIncome = [11200,
-    11500,
-    11700,
-    11900,
-    12200,
-    12400,
-    12600,
-    12800,
-    13100,
-    13300,
-    13500,
-    13700,
-    13900,
-    14200,
-    14400,
-    14600,
-    14900,
-    15100,
-    15300,
-    15500,
-    15800,
-    16000,
-    16200,
-    16400,
-    16700,
-    16900,
-    17100,
-    17400,
-    17600,
-    17800,
-    18100,
-    18300,
-    18600,
-    18800,
-    19100,
-    19300,
-    19600,
-    19900,
-    20200,
-    20500,
-    20800,
-    21100,
-    21400,
-    21700,
-    22000,
-    22300,
-    22600,
-    22900,
-    23300,
-    23600,
-    23900,
-    24300,
-    24700,
-    25000,
-    25400,
-    25900,
-    26300,
-    26700,
-    27100,
-    27500,
-    27900,
-    28400,
-    28800,
-    29300,
-    29800,
-    30300,
-    30900,
-    31500,
-    32000,
-    32600,
-    33200,
-    33900,
-    34500,
-    35200,
-    36000,
-    36700,
-    37500,
-    38300,
-    39200,
-    40000,
-    41000,
-    42000,
-    42900,
-    43700,
-    44900,
-    46200,
-    47800,
-    49600,
-    51400,
-    53600,
-    56300,
-    59500,
-    63500,
-    68600,
-    75300,
-    83700,
-    96400,
-    116000,
-    166000,
-    990000];
 
-const caplabincome = [104,
+let allIncome = [104,
     1560,
     3045,
     4419,
@@ -313,7 +212,7 @@ const oneTo999 = [1 ,
     99 ,
     99.9
     ]
-incomeSelect()
+
 chart()
 pie()
 function main() {
@@ -502,18 +401,6 @@ function chartData999() {
     }
 }
 
-function incomeSelect() {
-    let checkbox = document.getElementById("labAndCapIncomeDataset");
-    if (checkbox.checked)
-    {
-        allIncome = caplabincome;
-    }
-    else
-    {
-        allIncome = labIncome;
-    }
-}
-
 function chart() {
     console.log(IncomeAfter)
     let ctx1 = document.getElementById('myChart1').getContext('2d');
@@ -630,20 +517,26 @@ document.addEventListener("keyup", function(event) {
     }
 });
 
-
+//numBrackets is 2 to start with
 function plus() {
-    numBrackets += 1;
-    let brackethtml = '<div class="band_input" id="band'+numBrackets+'">' +
+    let brackethtml = '<div class="band_input" id="band'+ numBrackets +'">' +
     '<h3 class="subtitle">Tax Band '+ numBrackets +'</h3>' +
     'Tax Rate (from last tax band) <input class="percentage input-box rate_input" type="number" placeholder=0>%</br>' +
     'Up To £<input class="amount input-box upto_input" type="number" placeholder=0>'+
     '</div>';
+    
     if (numBrackets == 3)
     {
         let e = document.getElementById("minus_btn");
         e.style.display = "inline";
+        let band = document.getElementById("newBands");
     }
-    document.getElementById("newBands").innerHTML += brackethtml;
+    else {
+        let band = document.getElementById("band"+numBrackets);
+    }
+    band.parentNode.addChild(brackethtml);
+    //document.getElementById("newBands").innerHTML += brackethtml;
+    numBrackets += 1;
 }
 
 function minus() {
@@ -653,9 +546,9 @@ function minus() {
         e.style.display = "none";
     }
     else {
+        numBrackets -= 1;
         let band = document.getElementById("band"+numBrackets);
         band.parentNode.removeChild(band);
-        numBrackets -= 1;
     }
 }
 
