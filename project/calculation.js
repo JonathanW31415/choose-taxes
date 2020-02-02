@@ -1,12 +1,17 @@
 let numBrackets = 2;
+
+// variables set for updating chart
 let chartIncomeAfter;
 let chartOneTo99;
 let chartAllIncome;
+let chartXmax;
+//
 let IncomeAfter = [];
 let myChart1;
 let myChart2;
-const pop = 31200000;
-let percentilePop = 312000;
+const pop = 52400000; //total UK adult population
+let percentilePop = 524000;
+let decilePercentilePop = 52400;
 
 let allIncome = [104,
     1560,
@@ -107,122 +112,27 @@ let allIncome = [104,
     92968,
     109293,
     142335,
-    400837,
 ];
 
-
-const oneTo999 = [1 ,
-    2 ,
-    3 ,
-    4 ,
-    5 ,
-    6 ,
-    7 ,
-    8 ,
-    9 ,
-    10 ,
-    11 ,
-    12 ,
-    13 ,
-    14 ,
-    15 ,
-    16 ,
-    17 ,
-    18 ,
-    19 ,
-    20 ,
-    21 ,
-    22 ,
-    23 ,
-    24 ,
-    25 ,
-    26 ,
-    27 ,
-    28 ,
-    29 ,
-    30 ,
-    31 ,
-    32 ,
-    33 ,
-    34 ,
-    35 ,
-    36 ,
-    37 ,
-    38 ,
-    39 ,
-    40 ,
-    41 ,
-    42 ,
-    43 ,
-    44 ,
-    45 ,
-    46 ,
-    47 ,
-    48 ,
-    49 ,
-    50 ,
-    51 ,
-    52 ,
-    53 ,
-    54 ,
-    55 ,
-    56 ,
-    57 ,
-    58 ,
-    59 ,
-    60 ,
-    61 ,
-    62 ,
-    63 ,
-    64 ,
-    65 ,
-    66 ,
-    67 ,
-    68 ,
-    69 ,
-    70 ,
-    71 ,
-    72 ,
-    73 ,
-    74 ,
-    75 ,
-    76 ,
-    77 ,
-    78 ,
-    79 ,
-    80 ,
-    81 ,
-    82 ,
-    83 ,
-    84 ,
-    85 ,
-    86 ,
-    87 ,
-    88 ,
-    89 ,
-    90 ,
-    91 ,
-    92 ,
-    93 ,
-    94 ,
-    95 ,
-    96 ,
-    97 ,
-    98 ,
-    99 ,
-    99.9
-    ]
+const topOne = [177666,
+    188486,
+    201567,
+    217791,
+    238611,
+    266609,
+    306953,
+    372059,
+    503839,
+    1534790];
 
 chart()
 pie()
 function main() {
     m = math()
     results(m.tR)
-    chartData999()
+    chartData1p()
     updateData(chartIncomeAfter)
 }
-
-
 
 function results(taxRaised) {
     let outputTaxRaised = document.getElementById("collected");
@@ -270,12 +180,19 @@ function math() {
     console.log(bands);
     let UBI = parseFloat(document.getElementById("UBI").value);
     let taxRaised = 0;
-    for (let i = 0; i < allIncome.length; i++) {
-        let income = allIncome[i];
+    for (let i = 0; i < 109; i++) {
+        let income;
+        if ( i < 99){
+            income = allIncome[i];
+        }
+        else if ( i > 98 ){
+            income = topOne[i-99]
+        }
         for (let j = numBrackets-1; j > -1; j--) {
             let taxable;
             let taxed;
             let temp_from;
+            //cycles through all provided tax band data
             let selectedRow = bands[j];
             let selectedRowMinus = bands[(j-1)];
             let temp_rate = parseFloat(selectedRow['rate']);
@@ -308,17 +225,11 @@ function math() {
             {
                 taxed = (temp_upto - temp_from) * percToDec(temp_rate);
             }
-            if(income == allIncome[allIncome.length-1])
-            {
-                taxRaised += taxed * 31200;
-            }
-            else if (income == allIncome[allIncome.length-2])
-            {
-                taxRaised += taxed * 280800;
-            }
-            else
-            {
+            if ( i < 100) {
                 taxRaised += taxed * percentilePop;
+            }
+            else {
+                taxRaised += taxed * decilePercentilePop;
             }
             income -= taxed;
         } 
@@ -335,7 +246,7 @@ function taxPaid() {
     let p90to98 = 0;
     let top1 = 0;
     let j;
-    for (j=0; j < allIncome.length; j++) {
+    for (j=0; j < 108; j++) {
         if (j <= 80)
         {
             bottom80 += (allIncome[j] - IncomeAfter[j]) * percentilePop;
@@ -350,14 +261,7 @@ function taxPaid() {
         }
         else if (j > 98)
         {
-            if (j == 99)
-            {
-                top1 += (allIncome[j] - IncomeAfter[j]) * 280800;
-            }
-            else if (j == 100)
-            {
-                top1 += (allIncome[j] - IncomeAfter[j]) * 31200;
-            }
+            top1 += (topOne[j-99] - IncomeAfter[j]) * decilePercentilePop;
         }
     }
     if (bottom80 < 0)
@@ -380,27 +284,6 @@ function taxPaid() {
     return{"b80":bottom80, "p8090":p80to90, "p9098":p90to98, "t1":top1};
 }
 
-function checkbox999() {
-    chartData999()
-    updateData999()
-}
-
-function chartData999() {
-    let checkbox = document.getElementById("999");
-    if (checkbox.checked)
-    {
-        chartOneTo99 = oneTo999;
-        chartAllIncome = allIncome;
-        chartIncomeAfter = IncomeAfter;
-    }
-    else
-    {
-        chartOneTo99 = oneTo999.slice(0,99);
-        chartAllIncome = allIncome.slice(0, 99);
-        chartIncomeAfter = IncomeAfter.slice(0,99);
-    }
-}
-
 function chart() {
     console.log(IncomeAfter)
     let ctx1 = document.getElementById('myChart1').getContext('2d');
@@ -409,10 +292,9 @@ function chart() {
     myChart1 = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels:oneTo999.slice(0,99),
             datasets:[{
                 label: "Income After Tax (£)",
-                data: allIncome.slice(0, 99),
+                data: allIncome,
                 backgroundColor: [
                 'rgba(5, 99, 255, 0.2)',
                 'rgba(54, 162, 255, 0.2)',
@@ -426,7 +308,7 @@ function chart() {
 
             }, {
                 label:"Income Before Tax (£)",
-                data: allIncome.slice(0, 99),
+                data: allIncome,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -444,13 +326,22 @@ function chart() {
                     'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 1
-                
             }
         ],
         },
         options:{
             responsive: true,
             maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    ticks: {
+                        min: 1,
+                        max: 99,
+                        stepSize: 1
+                    }
+                }]
+            }
         }
     });
 }
@@ -492,6 +383,27 @@ function pie() {
     });
 }
 
+function checkbox1p() {
+    chartData1p()
+    updateData1p()
+}
+
+function chartData1p() {
+    let checkbox = document.getElementById("1p");
+    if (checkbox.checked)
+    {
+        chartXmax = 10
+        chartAllIncome = topOne;
+        chartIncomeAfter = IncomeAfter.slice(99,109);
+    }
+    else
+    {
+        chartXmax = 99
+        chartAllIncome = allIncome;
+        chartIncomeAfter = IncomeAfter.slice(0,99);
+    }
+}
+
 function updateData(updatedData) {
     myChart1.data.datasets[0].data = updatedData;
     myChart1.update();
@@ -500,10 +412,10 @@ function updateData(updatedData) {
     myChart2.update();
 }
 
-function updateData999() {
-    myChart1.data.labels = chartOneTo99;
+function updateData1p() {
     myChart1.data.datasets[0].data = chartIncomeAfter;
     myChart1.data.datasets[1].data = chartAllIncome;
+    myChart1.options.scales.xAxes.ticks.max = chartXmax;
     myChart1.update();
 }
 
@@ -519,23 +431,28 @@ document.addEventListener("keyup", function(event) {
 
 //numBrackets is 2 to start with
 function plus() {
-    let brackethtml = '<div class="band_input" id="band'+ numBrackets +'">' +
+    console.log("Number of Brackets: " + numBrackets);
+    const brackethtml = document.createElement('brackethtml');
+    brackethtml.innerHTML = '<div class="band_input" id="band'+ numBrackets +'">' +
     '<h3 class="subtitle">Tax Band '+ numBrackets +'</h3>' +
     'Tax Rate (from last tax band) <input class="percentage input-box rate_input" type="number" placeholder=0>%</br>' +
     'Up To £<input class="amount input-box upto_input" type="number" placeholder=0>'+
     '</div>';
-    
-    if (numBrackets == 3)
+    let band;
+    let node;
+    if (numBrackets == 2)
     {
         let e = document.getElementById("minus_btn");
         e.style.display = "inline";
-        let band = document.getElementById("newBands");
     }
-    else {
-        let band = document.getElementById("band"+numBrackets);
-    }
-    band.parentNode.addChild(brackethtml);
-    //document.getElementById("newBands").innerHTML += brackethtml;
+    band = document.getElementById("newBands");
+    band.appendChild(brackethtml);
+    //under construction [
+    //if (numBrackets >= 5) {
+    //    let newHeight = (document.getElementById("content").style.height) + 2;
+    //    document.getElementById("content").style.height = newHeight;
+    //}
+    // ]
     numBrackets += 1;
 }
 
