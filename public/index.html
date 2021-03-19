@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Choose Taxes</title>
+    <link rel="icon" href="yellowpound.png" />
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+  <body>
+    <div id="content" class="grid-container">
+      <div id="header" class="grid-item">
+        <h1 id="title" style="font-size: 30">Choose your own taxes!</h1>
+      </div>
+      <div id="IO">
+        <hr />
+        <div id="input" class="grid-item">
+          <div>
+            <h3 class="subtitle">
+              Negative Income Tax / Personal Allowance (if rate is 0%)
+            </h3>
+            Tax Rate
+            <input
+              class="percentage input-box rate_input"
+              value="0"
+              type="number"
+              id="NITRate"
+              placeholder="0"
+            />% Up To £<input
+              class="amount input-box upto_input"
+              value="0"
+              type="number"
+              id="NITUpTo"
+              placeholder="0"
+            />
+          </div>
+          <div id="newBands"></div>
+          <div class="band_input">
+            <h3 class="subtitle">Final Tax Band</h3>
+            Tax Rate (from last tax band)
+            <input
+              class="percentage input-box rate_input"
+              value="0"
+              type="number"
+              id="T5Rate"
+              placeholder="0"
+            />%
+          </div>
+          <div>
+            <h3 class="subtitle">UBI</h3>
+            <p>
+              (Leave blank if not wanted)<br />Calculated as giving payments to
+              taxpayers only
+            </p>
+            Annual payment of £<input
+              class="amount input-box"
+              type="number"
+              id="UBI"
+              value="0"
+            />
+          </div>
+          <div>
+            <button
+              class="button plusminus"
+              id="plus_btn"
+              style="vertical-align: middle"
+              onclick="plus()"
+            >
+              <span>+</span>
+            </button>
+            <button
+              class="button plusminus"
+              id="minus_btn"
+              style="vertical-align: middle"
+              onclick="minus()"
+            >
+              <span>-</span>
+            </button>
+          </div>
+          <div>
+            <button
+              class="button bigButton"
+              id="calc_btn"
+              style="vertical-align: middle"
+              onclick="main()"
+            >
+              <span>Calculate </span>
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div id="output" class="grid-item">
+          <h3 class="subtitle">You collected approximately:</h3>
+          <div id="collected">£0.00</div>
+          <p>This is compared to £177.4bn with real rates in 2016/2017</p>
+          <p>This leaves a budget deficit/surplus of approximately:</p>
+          <div id="deficit">£-201,300,000,000.00</div>
+          <p>
+            This is with the 2016/2017 budget with all of the other taxes still
+            in place
+          </p>
+        </div>
+        <!-- <div>
+          <button
+            class="button bigButton"
+            id="donate_btn"
+            style="vertical-align: middle"
+            onclick='donatePopup.style.display = "block"'
+          >
+            <span>Donate</span>
+          </button>
+        </div> -->
+        <!-- <div id="donatePopup" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick='donatePopup.style.display="none"'
+              >&times;</span
+            >
+            Bitcoin Address:
+            <input type="text" id="bitcoinAddress" value="" readonly />
+            <button class="button" onlclick="copy()">
+              <span>Copy Address</span>
+            </button>
+          </div>
+        </div> -->
+      </div>
+      <div id="graphs" class="grid-item">
+        <hr />
+        <div>
+          <h3 class="subtitle">Income Distribution</h3>
+          <input
+            type="checkbox"
+            id="1p"
+            value="checked"
+            onclick="checkbox1p()"
+          />Display top 1%
+        </div>
+        <div>
+          <canvas id="myChart1" width="200" height="500"></canvas>
+        </div>
+        <div>
+          <h3 class="subtitle">Share of taxes paid by each group</h3>
+          <canvas id="myChart2" width="200" height="500"></canvas>
+        </div>
+      </div>
+      <script src="calculation.js"></script>
+    </div>
+  </body>
+</html>
